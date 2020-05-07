@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Контакты{% endblock %}
+
+
+{% block body %}
+<div class="container">
+	<div class="row align-items-stretch justify-content-center">
+
+	    <div class="col-sm-6 align-content-stretch">
+	    	
+	    	<div class="row">
+				<div class="col-sm-4">
+					<img src="#">
+				</div>
+				<div class="col-sm-8">
+					<p>+7 (911) 989-00-23</p>
+				</div>
+						
+				<div class="col-sm-4">
+					<img src="#">
+				</div>
+				<div class="col-sm-8">
+					<p>sergeewic@yandex.com</p>
+				</div>
+						
+				<div class="col-sm-4">
+					<img src="#">
+				</div>
+				<div class="col-sm-8">
+					<p>vk.com/a.s.sterkhov1988</p>
+				</div>
+			</div>
+					
+		</div>
+
+
+		<div class="col-sm-6">
+			<h3>Напишите мне</h3>
+			<br>
+
+			{% if info is defined %}
+				<p> {{info}} </p>
+				{# info придёт из контроллера в массиве $data #}
+			{% endif %}
+
+			<form action="/contacts" method="POST">
+				<label>Имя *
+					<input type="text" name="sender_name" required>
+				</label>
+				<br>
+				<label>Email для обратной связи *
+					<input type="email" name="sender_email" required>
+				</label>
+				<br>
+				<label>Сообщение *
+					<textarea name="message" required></textarea>
+				</label>	
+				<br>
+				<input type="submit" value="Отправить">
+			</form>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

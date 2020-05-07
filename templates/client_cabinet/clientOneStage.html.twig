@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{project.projectTitle}}{% endblock %}
+
+
+{% block body %}
+
+<div class="container p-2">
+    <div class="row align-items-center mx-0 my-3" aria-label="breadcrumb">
+        <div class="col-sm-9 p-0">
+            <nav>
+                <ol class="breadcrumb p-2 m-0">
+                    <li class="breadcrumb-item">
+                        <a href="/client-cabinet/{{user.id}}">Кабинет заказчика: {{user.name}}</a> 
+                    </li>
+                    <li class="breadcrumb-item">
+                        <a href="/client-cabinet/{{user.id}}/{{project.id}}">{{project.projectTitle}}</a> 
+                    </li>
+                    <li class="breadcrumb-item active" aria-current="page">
+                        {{stage.stageTitle}}
+                    </li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+	       
+	<div class="text-secondary">
+        <em>Статус стадии: 
+            <span class="font-weight-bold
+        {% if stage.status == 'согласовано' %}
+            text-success
+        {% elseif stage.status == 'в работе'%}
+            text-info
+        {% else %}
+            text-secondary
+        {% endif %}
+            ">{{stage.status}}</span></em>
+    </div>
+</div>
+
+{% for renewal in renewals %}
+<div class="container card">
+    <div class="row align-items-center">
+        <div class="card-body">
+        	<h5 class="card-title">Обновление от {{renewal.created|date('d-m-Y')}}</h5>
+                    
+            <dl class="row card-text">
+            	<dt class="col-sm-4">Комментарий исполнителя:</dt>
+                <dd class="col-sm-8">{{renewal.commentExec}}</dd>
+            	<dt class="col-sm-4">Комментарий заказчика:</dt>
+                <dd class="col-sm-8">{{renewal.commentClient}}</dd>
+            </dl>
+
+            <div class="container p-0 mt-5">
+                <div class="row align-items-center">
+                    <div class="col-6 d-flex justify-content-end align-self-stretch align-content-center">
+                        <a href="#" role="button" class="btn btn-primary w-100 w-md-auto">Скачать картинки</a>
+                    </div>
+
+                    {% if renewal.commentClient is null %}
+                    <div class="col-6 d-flex justify-content-end">
+                        <a href="/client-cabinet/{{user.id}}/{{project.id}}/{{stage.id}}/{{renewal.id}}/addComment" role="button" class="btn btn-info w-100 w-md-auto">Написать комментарий</a>
+                    </div>
+                    {% else %}
+                    <div class="col-6 d-flex justify-content-end">
+                        <a href="/client-cabinet/{{user.id}}/{{project.id}}/{{stage.id}}/{{renewal.id}}/addComment" role="button" class="btn btn-secondary w-100 w-md-auto">Редактировать комментарий</a>
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+{% endblock %}

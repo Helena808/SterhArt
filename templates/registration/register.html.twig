@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Регистрация нового пользователя{% endblock %}
+
+{% block body %}
+
+	<div class="row justify-content-center">
+    	<div class="col-lg-6 m-3">
+    		<div class="card bg-light">
+    			<div class="card-body">
+    				<h1 class="text-center">Новый заказчик</h1>
+
+				    {{ form_start(registrationForm) }}
+				        {{ form_row(registrationForm.name) }}
+				        {{ form_row(registrationForm.surname) }}
+				        {{ form_row(registrationForm.phone) }}
+				        {{ form_row(registrationForm.email) }}
+				        {{ form_row(registrationForm.plainPassword) }}
+				        
+				        <button class="btn btn-primary btn-block">Зарегистрировать</button>
+				    {{ form_end(registrationForm) }}
+				</div>
+			</div>
+		</div>
+	</div>
+	
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Кабинет заказчика{% endblock %}
+
+{% block body %}
+<div class="container p-2">
+    <div class="row align-items-center mx-0 my-3" aria-label="breadcrumb">
+		<div class="col-md-6 p-0 pr-md-2">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb p-2 m-0">
+					<li class="breadcrumb-item active" aria-current="page">
+						Кабинет заказчика: {{user.name}} 
+					</li>
+				</ol>
+			</nav>
+		</div>
+	</div>
+</div>
+
+<div class="container p-0">
+	<div class="row ">
+
+		{% for container in containers %}
+		<div class="col-md-6">
+			<div class="card h-100">
+      			<div class="card-body">
+					<h4 class="card-title">
+						<a href="/client-cabinet/{{user.id}}/{{container.project.id}}">{{container.project.projectTitle}}</a>
+					</h4>
+					
+					<dl class="row card-text">
+						<dt class="col-sm-5">Адрес:</dt>
+						<dd class="col-sm-7">{{container.project.address}}</dd>
+
+						<dt class="col-sm-5">Обновление:</dt>
+						<dd class="col-sm-7">{{container.renewal.created|date('d-m-Y')}}</dd>
+						<dt class="col-sm-5">Стадия:</dt>
+						<dd class="col-sm-7">{{container.stage.stageTitle}}</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+
+</div>
+
+
+{% endblock %}

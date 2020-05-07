@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Новая запись{% endblock %}
+
+{% block body %}
+<div class="container p-2">
+	<div class="row align-items-center mx-0 my-3" aria-label="breadcrumb">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb p-2 m-0">
+				<li class="breadcrumb-item">
+					<a href="/exec-cabinet">Кабинет исполнителя</a> 
+				</li>
+				<li class="breadcrumb-item">
+					<a href="/exec-cabinet/{{project.id}}">{{project.user.name}}: {{project.projectTitle}}</a> 
+				</li>
+				<li class="breadcrumb-item">
+					<a href="/exec-cabinet/{{project.id}}/{{stage.id}}">{{stage.stageTitle}}</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Новая запись
+				</li>
+			</ol>
+		</nav>
+	</div>
+</div>
+
+<div>
+	<form action="/exec-cabinet/{{project.id}}/{{stage.id}}/addRenewal" enctype="multipart/form-data" method="POST">
+		<div class="form-group">
+			<label for="commentExec" class="col-form-label-lg">Комментарий исполнителя</label>
+			<textarea name="commentExec" id="commentExec" placeholder="Введите комментарий" class="form-control" rows="10"></textarea>
+		</div>
+			
+		<div class="custom-file mt-2">
+			<input type="file" name="images[]" accept="image/*" multiple class="custom-file-input" id="images">
+			<label class="custom-file-label" for="images" data-browse="Выбрать">Выберите файлы</label>
+		</div>
+		<br>	
+		<button type="reset" class="btn btn-warning my-2">Очистить форму</button>
+		<button type="submit" class="btn btn-primary my-2">Отправить</button>
+	</form>
+</div>
+
+{% endblock %}

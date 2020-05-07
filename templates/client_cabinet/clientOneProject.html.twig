@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{project.projectTitle}}{% endblock %}
+
+{% block body %}
+<div class="container p-2">
+	<div class="row align-items-center mx-0 my-3" aria-label="breadcrumb">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb p-2 m-0">
+				<li class="breadcrumb-item">
+					<a href="/client-cabinet/{{user.id}}">Кабинет заказчика: {{user.name}}</a> 
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">
+					{{project.projectTitle}}
+				</li>
+			</ol>
+		</nav>
+	</div>
+</div>
+
+{% for stage in stages %}
+	<div class="card">
+    	<div class="card-body">
+			<div class="container">
+				<div class="row">
+					<div class="col-sm-6">
+						<h5 class="card-title">{{stage.stageTitle}}</h5>
+						{% if stage.status == 'согласовано' %}
+						<p class="text-success card-text">
+					{% elseif stage.status == 'в работе' %}
+						<p class="text-info card-text">
+					{% else %}
+						<p class="text-secondary card-text">
+					{% endif %}
+							<em><strong>{{stage.status|capitalize}}</strong></em>
+						</p>
+					</div>
+
+					<div class="col-sm d-sm-flex justify-content-end align-items-center mt-3 mt-md-0">
+						<a href="/client-cabinet/{{user.id}}/{{project.id}}/{{stage.id}}" role="button" 
+					{% if stage.status == 'согласовано' %}
+						class="btn btn-outline-success">
+					{% elseif (stage.status == 'в работе') or (message is defined) %}
+						class="btn btn-info">
+					{% else %}
+						class="btn btn-outline-secondary disabled">
+					{% endif %}	
+						Перейти к стадии</a>
+					</div>
+				</div>
+			</div>
+		</div>				
+	</div>
+{% endfor %}	
+
+
+
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{project.projectTitle}}{% endblock %}
+
+{% block body %}
+<div class="container p-2">
+   	<div class="row align-items-center mx-0 my-3" aria-label="breadcrumb">
+		<div class="col-sm-9 p-0">
+			<nav>
+				<ol class="breadcrumb p-2 m-0">
+					<li class="breadcrumb-item">
+						<a href="/exec-cabinet">Кабинет исполнителя</a> 
+					</li>
+					<li class="breadcrumb-item">
+						<a href="/exec-cabinet/{{project.id}}">{{project.user.name}}: {{project.projectTitle}}</a> 
+					</li>
+					<li class="breadcrumb-item active" aria-current="page">
+						{{stage.stageTitle}}
+					</li>
+				</ol>
+			</nav>
+		</div>
+		<div class="col-sm d-md-flex justify-content-end mx-0 mt-3 mt-md-0 p-0">
+			<a href="/exec-cabinet/{{project.id}}/{{stage.id}}/addRenewal" role="button" class="btn btn-info">Новая запись</a>
+		</div>
+	</div>
+	
+
+	{% if message is defined %}
+	<div class="container alert alert-success" role="alert">{{message}}</div>
+	{% endif %}
+
+	<div>
+		<form action="/exec-cabinet/{{project.id}}/{{stage.id}}" method="POST">
+		    <div class="row justify-content-between">
+
+		    	<div class="col-12 col-md-4 col-lg-3">
+				    <label for="selectStage" class="my-1 mr-2">
+						   <h5 class="text-info"><em>Статус стадии:</em></h5>
+					</label>
+				</div>
+				
+				<div class="col-8 col-md-3 col-lg-2">
+					<select class="custom-select my-1 mr-sm-2" id="selectStage" name="status">
+						<option selected>{{stage.status}}</option>
+					{% if stage.status == "в работе" %}
+						<option name="status" value="согласовано">согласовано</option>
+						<option name="status" value="-">-</option>
+					{% elseif stage.status == "согласовано" %}
+						<option name="status" value="в работе">в работе</option>
+						<option name="status" value="-">-</option>
+					{% else %}
+						<option name="status" value="в работе">в работе</option>
+						<option name="status" value="согласовано">согласовано</option>
+					{% endif %}
+					</select>
+				</div>
+				
+				<div class="col-4 col-md-2 col-lg-2">				
+					<button type="submit" class="btn btn-secondary text-warning my-1">Изменить</button>
+				</div>
+				
+				<div class="col-md-3 col-lg-5"></div>
+
+			</div>
+		</form>
+	</div>
+</div>
+
+{% for renewal in renewals %}
+<div class="container card">
+    <div class="row align-items-center">
+        <div class="card-body">
+        	<h5 class="card-title">Обновление от {{renewal.created|date('d-m-Y')}}</h5>
+                    
+            <dl class="row card-text">
+            	<dt class="col-sm-4">Комментарий исполнителя:</dt>
+                <dd class="col-sm-8">{{renewal.commentExec}}</dd>
+            	<dt class="col-sm-4">Комментарий заказчика:</dt>
+                <dd class="col-sm-8">{{renewal.commentClient}}</dd>
+            </dl>
+
+            <div class="container p-0 mt-5">
+                <div class="row">
+                    <div class="col-sm-6">
+                        <a href="#" role="button" class="btn btn-primary">Скачать картинки</a>
+                    </div>                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+{% endblock %}

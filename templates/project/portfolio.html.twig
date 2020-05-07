@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Портфолио{% endblock %}
+
+{% block body %}
+<div class="container my-3">
+    <div class="row align-items-center justify-content-between m-0">
+    	<div class="col-xs-4 px-0">
+			<h4>Портфолио</h4>
+		</div>
+		{% if is_granted ('ROLE_ADMIN') %}
+		<div class="col-xs-4 px-0">
+			<a href="{{path('add_portfolio_open')}}" role="button" class="btn btn-info">Добавить проект</a>
+		</div>
+		{% endif %}
+	</div>
+</div>
+
+<div class="container">
+    <div class="row">
+
+		{% for project in projects %}
+		<div class="col-md-6">
+			<div class="card h-100">
+      			<div class="card-body">
+					<h4 class="card-title">
+						<a href="/portfolio/{{ project.id }}">{{project.projectTitle}}</a>
+					</h4>
+
+					<p><em>{{project.city}}</em></p>
+					<p card-text>{{project.description}}</p>
+					<img src="{{ asset('img/1/1.2.jpg') }}" class="card-img-top">
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+
+	</div>
+</div>
+
+
+{% endblock %}

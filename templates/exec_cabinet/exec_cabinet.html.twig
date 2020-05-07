@@ -1,0 +1,57 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Кабинет исполнителя{% endblock %}
+
+{% block body %}
+<div class="container p-2">
+    <div class="row align-items-center mx-0 my-3" aria-label="breadcrumb">
+		<div class="col-md-6 p-0 pr-md-2">
+			<nav aria-label="breadcrumb">
+				<ol class="breadcrumb p-2 m-0">
+					<li class="breadcrumb-item active" aria-current="page">
+							Кабинет исполнителя 
+					</li>
+				</ol>
+			</nav>
+		</div>
+		
+		<div class="col-6 col-md-3 d-flex justify-content-end mx-0 pr-1 mt-2 mt-md-0 p-0">
+			<a href="/register" role="button" class="btn btn-secondary w-100 w-md-auto">Новый заказчик</a>
+		</div>
+
+		<div class="col-6 col-md-3 d-flex justify-content-end mx-0 pl-1 mt-2 mt-md-0 p-0">
+			<a href="/exec-cabinet/addProject" role="button" class="btn btn-info w-100 w-md-auto">Новый проект</a>
+		</div>
+		
+	</div>
+</div>
+
+<div class="container p-0">
+	<div class="row">
+
+		{% for container in containers %}
+		<div class="col-md-6">
+			<div class="card h-100">
+      			<div class="card-body">
+					<h4 class="card-title">
+						<a href="/exec-cabinet/{{container.project.id}}">{{container.user.name}} / {{container.project.projectTitle}}</a>
+					</h4>
+					<dl class="row card-text">
+						<dt class="col-sm-5">Адрес:</dt>
+						<dd class="col-sm-7">{{container.project.address}}</dd>
+
+						<dt class="col-sm-5">Обновление:</dt>
+						<dd class="col-sm-7">{{container.renewal.created|date('d-m-Y')}}</dd>
+						<dt class="col-sm-5">Стадия:</dt>
+						<dd class="col-sm-7">{{container.stage.stageTitle}}</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+		{% endfor %}
+
+	</div>
+</div>
+
+
+{% endblock %}

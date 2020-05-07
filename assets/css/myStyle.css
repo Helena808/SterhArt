@@ -1,0 +1,19 @@
+.btn-bubu{
+
+background-color: red;
+
+color: white;
+
+}
+
+.btn-bubu:hover,
+
+.btn-bubu:focus,
+
+.btn-bubu:visited{
+
+background-color: green;
+
+color: white;
+
+}

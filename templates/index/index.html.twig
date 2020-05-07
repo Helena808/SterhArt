@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}SterhArt - главная{% endblock %}
+
+
+{% block body %}
+<div class="jumbotron jumbotron-fluid m-0 my-3 py-4">
+  <div class="container">
+    <h1 class="display-4">Добрый день!</h1>
+    {% if is_granted ('ROLE_ADMIN') %}
+		<p class="lead">Вы зашли на сайт в качестве администратора. Добавить нового пользователя и новый проект можно в Кабинете исполнителя.</p>
+	{% elseif is_granted ('ROLE_USER') %}
+    	<p class="lead">Меня зовут Артём, я архитектор-дизайнер. Вы можете взглянуть на моё портфолио или посмотреть за ходом работы над Вашим проектом в личном кабинете.</p>
+    {% endif %}
+  </div>
+</div>
+
+<div class="container p-0">
+	<div class="row align-items-stretch p-0 m-0	">
+		<div class="col-sm bg-info border text-center d-flex align-items-center justify-content-center p-5">
+			<div class="display-4"><a href="/portfolio" class="text-decoration-none text-light stretched-link">Портфолио</a></div>
+		</div>
+
+		<div class="col-sm bg-secondary border text-center d-flex flex-column align-items-center justify-content-center p-5">
+		
+		{% if is_granted ('ROLE_ADMIN') %}
+			<div class="display-4"><a href="/exec-cabinet" class="text-decoration-none text-light stretched-link"><div>Кабинет</div><div>исполнителя</div></a></div>
+		{% elseif is_granted ('ROLE_USER') %}
+			<div class="display-4"><a href="/client-cabinet/{{user.id}}" class="text-decoration-none text-light stretched-link"><div>Кабинет</div><div>заказчика</div></a></div>
+		{% else %}
+			<div class="display-4"><a href="/login" class="text-decoration-none text-light stretched-link">Войти</a></div>
+		{% endif %}
+		</div>
+
+
+	</div>	
+</div>
+
+
+{% endblock %}

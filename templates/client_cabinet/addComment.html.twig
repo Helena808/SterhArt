@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Добавить комментарий{% endblock %}
+
+{% block body %}
+<div class="container p-2">
+	<div class="row align-items-center mx-0 my-3" aria-label="breadcrumb">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb p-2 m-0">
+				<li class="breadcrumb-item">
+		                <a href="/client-cabinet/{{user.id}}">Кабинет заказчика: {{user.name}}</a> 
+		        </li>
+				<li class="breadcrumb-item">
+		                <a href="/client-cabinet/{{user.id}}/{{project.id}}">{{project.projectTitle}}</a> 
+		        </li>
+				<li class="breadcrumb-item">
+		                <a href="/client-cabinet/{{user.id}}/{{project.id}}/{{stage.id}}">{{stage.stageTitle}}</a>
+		        </li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Добавить комментарий
+				</li>
+			</ol>
+		</nav>
+	</div>
+</div>
+
+<div>
+	<form action="/client-cabinet/{{user.id}}/{{project.id}}/{{stage.id}}/{{renewal.id}}/addComment" method="POST">
+		<div class="form-group">
+			<label for="commentClient" class="col-form-label-lg">Комментарий заказчика</label>
+			<textarea name="commentClient" id="commentClient" placeholder="Введите комментарий" class="form-control" rows="10"></textarea>
+		</div>
+					
+		<button type="reset" class="btn btn-warning mb-2">Очистить форму</button>
+		<button type="submit" class="btn btn-primary mb-2">Отправить</button>
+	</form>
+</div>
+
+{% endblock %}
