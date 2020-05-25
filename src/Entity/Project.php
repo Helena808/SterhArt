@@ -39,11 +39,6 @@ class Project
     private $description;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $photos;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="project")
      */
     private $user;
@@ -53,10 +48,20 @@ class Project
      */
     private $stagesID;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Photo", mappedBy="project_id", cascade = {"persist"})
+     */
+    private $photos;
+
+
+
     public function __construct()
     {
-        $this->stagesID = new ArrayCollection();
+        $this->photos = new ArrayCollection();
     }
+
+
+
 
     public function getId(): ?int
     {
@@ -111,17 +116,6 @@ class Project
         return $this;
     }
 
-    public function getPhotos(): ?string
-    {
-        return $this->photos;
-    }
-
-    public function setPhotos(?string $photos): self
-    {
-        $this->photos = $photos;
-
-        return $this;
-    }
 
     public function getUser(): ?User
     {
@@ -134,6 +128,8 @@ class Project
 
         return $this;
     }
+
+
 
     /**
      * @return Collection|Stage[]
@@ -165,4 +161,39 @@ class Project
 
         return $this;
     }
+
+
+
+    /**
+     * @return Collection|Photo[]
+     */
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
+    }
+
+    public function addPhoto(Photo $photo): self
+    {
+        if (!$this->photos->contains($photo)) {
+            $this->photos[] = $photo;
+            $photo->setProjectId($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhoto(Photo $photo): self
+    {
+        if ($this->photos->contains($photo)) {
+            $this->photos->removeElement($photo);
+            // set the owning side to null (unless already changed)
+            if ($photo->getProjectId() === $this) {
+                $photo->setProjectId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    
 }

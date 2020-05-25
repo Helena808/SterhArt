@@ -57,7 +57,7 @@
 				</div>
 				
 				<div class="col-4 col-md-2 col-lg-2">				
-					<button type="submit" class="btn btn-secondary text-warning my-1">Изменить</button>
+					<button type="submit" class="btn btn-primary my-1">Изменить</button>
 				</div>
 				
 				<div class="col-md-3 col-lg-5"></div>
@@ -80,12 +80,24 @@
                 <dd class="col-sm-8">{{renewal.commentClient}}</dd>
             </dl>
 
-            <div class="container p-0 mt-5">
-                <div class="row">
-                    <div class="col-sm-6">
-                        <a href="#" role="button" class="btn btn-primary">Скачать картинки</a>
-                    </div>                    
+            <div class="row">
+            {% if renewal.sketches %}
+                {% for sketch in renewal.sketches %}
+                <div class="col-lg-2 col-md-3 col-6">
+                    <a data-fancybox="gallery" href="{{ asset('images/sketches/') ~ sketch.name }}" data-caption="Caption #{{ loop.index0 }}">
+                        <img class="img-fluid" src="{{ asset('images/sketches/') ~ sketch.name }}" alt="oops!">
+                    </a>
                 </div>
+                {% endfor %}
+            {% endif %} 
+            </div>
+
+            <div class="container p-0 mt-5">
+                <div class="row align-items-end p-0 mt-5">
+                    <div class="col-6 d-flex justify-content-end">
+                        <a href="/exec-cabinet/{{project.id}}/{{stage.id}}/addRenewal" role="button" class="btn btn-secondary w-100 w-md-auto">Редактировать комментарий</a>
+                    </div>
+	        	</div>
             </div>
         </div>
     </div>

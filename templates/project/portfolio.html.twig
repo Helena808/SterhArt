@@ -10,7 +10,7 @@
 		</div>
 		{% if is_granted ('ROLE_ADMIN') %}
 		<div class="col-xs-4 px-0">
-			<a href="{{path('add_portfolio_open')}}" role="button" class="btn btn-info">Добавить проект</a>
+			<a href="{{path('add_portfolio')}}" role="button" class="btn btn-info">Добавить проект</a>
 		</div>
 		{% endif %}
 	</div>
@@ -27,9 +27,12 @@
 						<a href="/portfolio/{{ project.id }}">{{project.projectTitle}}</a>
 					</h4>
 
-					<p><em>{{project.city}}</em></p>
-					<p card-text>{{project.description}}</p>
-					<img src="{{ asset('img/1/1.2.jpg') }}" class="card-img-top">
+					<p class="card-text"><em>{{project.city}}</em></p>
+					<p class="card-text">{{project.description}}</p>
+
+					<img src="{{ asset('images/photos/') ~ random(project.photos).name }}" class="card-img-bottom" alt="Card image cap">
+					
+
 				</div>
 			</div>
 		</div>

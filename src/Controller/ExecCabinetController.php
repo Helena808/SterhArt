@@ -8,10 +8,13 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Project;
 use App\Entity\Stage;
 use App\Entity\Renewal;
+use App\Entity\Sketch;
 use App\Repository\ProjectRepository;
 use App\Repository\UserRepository;
 use App\Repository\StageRepository;
 use App\Repository\RenewalRepository;
+use App\Repository\SketchRepository;
+use App\Form\RenewalFormType;
 
 
 class ExecCabinetController extends AbstractController
@@ -229,43 +232,58 @@ class ExecCabinetController extends AbstractController
 
     }
 
-    // НОВАЯ ЗАПИСЬ (ОБНОВЛЕНИЕ)
+    // НОВАЯ ЗАПИСЬ (RENEWAL)
     /**
-     * @Route("/exec-cabinet/{projectID}/{stageID}/addRenewal", name="add_renewal_open", methods = "GET")
+     * @Route("/exec-cabinet/{projectID}/{stageID}/addRenewal", name="add_renewal")
      */
-    public function addRenewalOpen($projectID, $stageID, ProjectRepository $pRepository, StageRepository $sRepository)
+    public function addRenewalOpen($projectID, $stageID, ProjectRepository $pRepository, StageRepository $sRepository, Request $request)
     {
+        if (!$this->isGranted("ROLE_ADMIN")) {
+            return $this->redirectToRoute('index');
+        };
+
         $project = $pRepository -> find($projectID);
         $stage = $sRepository -> find($stageID);
-
-        $data = [
-            'project' => $project,
-            'stage' => $stage,
-        ];
-
-        return $this->render('exec_cabinet/addRenewal.html.twig', $data);
-    }
-     
-    // Обработчик формы
-    /**
-     * @Route("/exec-cabinet/{projectID}/{stageID}/addRenewal", name="add_renewal_submit", methods = "POST")
-     */
-    public function addRenewalSubmit(Request $request, $projectID, $stageID, UserRepository $uRepository, StageRepository $sRepository)
-    {
-        $commentExec = $request->get('commentExec');
-        //$images = $request->get('imagesFile');
         
-        $renewal = new Renewal;
-        $renewal->setCommentExec($commentExec);
-        //$renewal->setImages($images);
-        $stage = $sRepository -> find($stageID);
+        $renewal = new Renewal();
         $renewal->setStageID($stage);
 
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($renewal);
-        $entityManager->flush();
+        $form = $this->createForm(RenewalFormType::class, $renewal);
+        $form->handleRequest($request);
 
-        return $this->redirectToRoute('exec_one_stage', array('projectID'=>$projectID, 'stageID'=>$stageID));
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
+            $uploads_dir = $this -> getParameter('sketches_directory');
+            $sketches = $request -> files -> get('renewal_form')['sketches'];
+
+            foreach($sketches as $file) 
+            {
+                $filename = md5(uniqid()) . '.' . $file -> guessExtension();
+                $file -> move(
+                    $uploads_dir,
+                    $filename
+                );
+                $sketch = new Sketch();
+                $sketch -> setName($filename);
+                $renewal -> addSketch($sketch);
+            };
+
+            $em = $this -> getDoctrine() -> getManager();
+            $em -> persist($renewal);
+            $em -> flush();
+
+            return $this->redirectToRoute('exec_one_stage', array('projectID'=>$projectID, 'stageID'=>$stageID));
+        }
+
+        return $this->render('exec_cabinet/addRenewal.html.twig', array(
+            'renewalForm' => $form->createView(),
+            'project' => $project,
+            'stage' => $stage,
+        ));
     }
+     
+
+     
+    
 
 }

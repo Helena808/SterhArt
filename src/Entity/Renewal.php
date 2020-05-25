@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\RenewalRepository")
- * @Vich\Uploadable
  */
 class Renewal
 {
@@ -32,10 +33,6 @@ class Renewal
      */
     private $commentClient;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $images;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Stage", inversedBy="renewalsID")
@@ -43,9 +40,15 @@ class Renewal
      */
     private $stageID;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Sketch", mappedBy="renewal_id", cascade = {"persist"})
+     */
+    private $sketches;
+
     public function __construct()
     {
         $this->created = new \DateTime();
+        $this->sketches = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -89,17 +92,6 @@ class Renewal
         return $this;
     }
 
-    public function getImages(): ?string
-    {
-        return $this->images;
-    }
-
-    public function setImages(?string $images): self
-    {
-        $this->images = $images;
-
-        return $this;
-    }
 
     public function getStageID(): ?Stage
     {
@@ -109,6 +101,37 @@ class Renewal
     public function setStageID(?Stage $stageID): self
     {
         $this->stageID = $stageID;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Sketch[]
+     */
+    public function getSketches(): Collection
+    {
+        return $this->sketches;
+    }
+
+    public function addSketch(Sketch $sketch): self
+    {
+        if (!$this->sketches->contains($sketch)) {
+            $this->sketches[] = $sketch;
+            $sketch->setRenewalId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSketch(Sketch $sketch): self
+    {
+        if ($this->sketches->contains($sketch)) {
+            $this->sketches->removeElement($sketch);
+            // set the owning side to null (unless already changed)
+            if ($sketch->getRenewalId() === $this) {
+                $sketch->setRenewalId(null);
+            }
+        }
 
         return $this;
     }

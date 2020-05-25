@@ -12,6 +12,19 @@ var $ = require('jquery');
 require('bootstrap');
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-// import $ from 'jquery';
+//import $ from 'jquery';
+
+
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
+
+$('#portfolio_form_photos').change(function() {
+    var $el = $(this),
+    files = $el[0].files,
+    label = files[0].name;
+    if (files.length > 1) {
+        label = label + " and " + String(files.length - 1) + " more files"
+    }
+    $el.next('.custom-file-label').html(label);
+});
+
