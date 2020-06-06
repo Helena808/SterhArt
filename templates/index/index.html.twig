@@ -17,11 +17,11 @@
 
 <div class="container p-0">
 	<div class="row align-items-stretch p-0 m-0	">
-		<div class="col-sm bg-info border text-center d-flex align-items-center justify-content-center p-5">
-			<div class="display-4"><a href="/portfolio" class="text-decoration-none text-light stretched-link">Портфолио</a></div>
+		<div class="col-md-6 bg-info border text-center d-flex align-items-center justify-content-center p-5">
+			<div class="display-4 m-5"><a href="/portfolio" class="text-decoration-none text-light stretched-link">Портфолио</a></div>
 		</div>
 
-		<div class="col-sm bg-secondary border text-center d-flex flex-column align-items-center justify-content-center p-5">
+		<div class="col-md-6 bg-secondary border text-center d-flex flex-column align-items-center justify-content-center p-5">
 		
 		{% if is_granted ('ROLE_ADMIN') %}
 			<div class="display-4"><a href="/exec-cabinet" class="text-decoration-none text-light stretched-link"><div>Кабинет</div><div>исполнителя</div></a></div>

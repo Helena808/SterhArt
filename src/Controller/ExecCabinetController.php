@@ -15,6 +15,7 @@ use App\Repository\StageRepository;
 use App\Repository\RenewalRepository;
 use App\Repository\SketchRepository;
 use App\Form\RenewalFormType;
+use App\Form\RenewalEditFormType;
 
 
 class ExecCabinetController extends AbstractController
@@ -236,7 +237,7 @@ class ExecCabinetController extends AbstractController
     /**
      * @Route("/exec-cabinet/{projectID}/{stageID}/addRenewal", name="add_renewal")
      */
-    public function addRenewalOpen($projectID, $stageID, ProjectRepository $pRepository, StageRepository $sRepository, Request $request)
+    public function addRenewal($projectID, $stageID, ProjectRepository $pRepository, StageRepository $sRepository, Request $request)
     {
         if (!$this->isGranted("ROLE_ADMIN")) {
             return $this->redirectToRoute('index');
@@ -281,7 +282,55 @@ class ExecCabinetController extends AbstractController
             'stage' => $stage,
         ));
     }
-     
+    
+    // РЕДАКТИРОВАТЬ ЗАПИСЬ (RENEWAL)
+    /**
+     * @Route("/exec-cabinet/{projectID}/{stageID}/{renewalID}/editRenewal", name="edit_renewal", requirements={"projectID"="\d+", "stageID"="\d+", "renewalID"="\d+"})
+     */
+    public function editRenewal($projectID, $stageID, $renewalID, ProjectRepository $pRepository, StageRepository $sRepository, RenewalRepository $rRepository, Request $request)
+    {
+        if (!$this->isGranted("ROLE_ADMIN")) {
+            return $this->redirectToRoute('index');
+        };
+
+        $project = $pRepository -> find($projectID);
+        $stage = $sRepository -> find($stageID);
+        $renewal = $rRepository -> find($renewalID);
+
+        $form = $this->createForm(RenewalEditFormType::class, $renewal);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) 
+        {
+            $uploads_dir = $this -> getParameter('sketches_directory');
+            $sketches = $request -> files -> get('renewal_edit_form')['sketches'];
+
+            foreach($sketches as $file) 
+            {
+                $filename = md5(uniqid()) . '.' . $file -> guessExtension();
+                $file -> move(
+                    $uploads_dir,
+                    $filename
+                );
+                $sketch = new Sketch();
+                $sketch -> setName($filename);
+                $renewal -> addSketch($sketch);
+            };
+
+            $em = $this -> getDoctrine() -> getManager();
+            $em -> persist($renewal);
+            $em -> flush();
+
+            return $this->redirectToRoute('exec_one_stage', array('projectID'=>$projectID, 'stageID'=>$stageID));
+        }
+        
+        return $this->render('exec_cabinet/editRenewal.html.twig', array(
+            'renewalEditForm' => $form->createView(),
+            'project' => $project,
+            'stage' => $stage,
+            'renewal' => $renewal,
+        ));
+    }
 
      
     

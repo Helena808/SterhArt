@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Редактировать запись{% endblock %}
+
+{% block body %}
+<div class="container p-2">
+	<div class="row align-items-center mx-0 my-3" aria-label="breadcrumb">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb p-2 m-0">
+				<li class="breadcrumb-item">
+					<a href="/exec-cabinet">Кабинет исполнителя</a> 
+				</li>
+				<li class="breadcrumb-item">
+					<a href="/exec-cabinet/{{project.id}}">{{project.user.name}}: {{project.projectTitle}}</a> 
+				</li>
+				<li class="breadcrumb-item">
+					<a href="/exec-cabinet/{{project.id}}/{{stage.id}}">{{stage.stageTitle}}</a>
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Новая запись
+				</li>
+			</ol>
+		</nav>
+	</div>
+</div>
+
+<div class="row justify-content-center">
+    <div class="col-lg-6 m-3">
+    	<div class="card bg-light">
+    		<div class="card-body">
+    			<h1 class="text-center">Редактировать комментарий и изображения</h1>
+
+				{{ form_start(renewalEditForm) }}
+				    {{ form_row(renewalEditForm.commentExec) }}
+				    {{ form_row(renewalEditForm.sketches) }}
+				    <div class="alert alert-success" role="alert">
+							Если названия выбранных файлов не отображаются в строке - это нормально. Наведите на строку мышкой и увидите названия выбранных файлов.
+						</div>
+				   		<div class="alert alert-warning" role="alert">
+							Выбранные изображения добавятся к уже загруженным. Для удаления изображений обратитесь к разработчику.
+						</div>
+				    {{ form_row(renewalEditForm.save) }}
+				{{ form_end(renewalEditForm) }}
+				    
+			</div>
+		</div>
+	</div>
+</div>
+
+
+{% endblock %}

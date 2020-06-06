@@ -3,22 +3,26 @@
 {% block title %}Редактировать проект{% endblock %}
 
 {% block body %}
-<nav aria-label="breadcrumb">
-	<ol class="breadcrumb">
-		<li class="breadcrumb-item">
-			<a href="/portfolio">Портфолио</a> 
-		</li>
-		<li class="breadcrumb-item">
-			<a href="/portfolio/{{project.id}}">"{{project.projectTitle}}"</a> 
-		</li>
-		<li class="breadcrumb-item active" aria-current="page">
-			Редактировать проект
-		</li>
-	</ol>
-</nav>
+<div class="container p-2">
+	<div class="row align-items-center mx-0 my-1" aria-label="breadcrumb">
+		<nav aria-label="breadcrumb">
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item">
+					<a href="/portfolio">Портфолио</a> 
+				</li>
+				<li class="breadcrumb-item">
+					<a href="/portfolio/{{project.id}}">"{{project.projectTitle}}"</a> 
+				</li>
+				<li class="breadcrumb-item active" aria-current="page">
+					Редактировать проект
+				</li>
+			</ol>
+		</nav>
+	</div>
+</div>
 
 <div class="row justify-content-center">
-    	<div class="col-lg-6 m-3">
+    	<div class="col-lg-8 m-3">
     		<div class="card bg-light">
     			<div class="card-body">
     				<h1 class="text-center">Редактировать проект</h1>
@@ -27,9 +31,13 @@
 				    {{ form_start(portfolioEditForm) }}
 				  		{{ form_row(portfolioEditForm.projectTitle) }}
 						{{ form_row(portfolioEditForm.city) }}
-				   		{{ form_row(portfolioEditForm.description) }}		{{ form_row(portfolioEditForm.photos) }}
+				   		{{ form_row(portfolioEditForm.description) }}	
+				   		{{ form_row(portfolioEditForm.photos) }}
+				   		<div class="alert alert-success" role="alert">
+							Если названия выбранных файлов не отображаются в строке - это нормально. Наведите на строку мышкой и увидите названия выбранных файлов.
+						</div>
 				   		<div class="alert alert-warning" role="alert">
-							Функционал для удаления картинок ещё не реализован. Для удаления картинок вручную обратитесь к разработчику.
+							Выбранные изображения добавятся к уже загруженным. Для удаления изображений обратитесь к разработчику.
 						</div>
 				        {{ form_row(portfolioEditForm.save) }}
 				    {{ form_end(portfolioEditForm) }}

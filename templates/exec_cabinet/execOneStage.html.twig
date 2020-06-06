@@ -76,8 +76,11 @@
             <dl class="row card-text">
             	<dt class="col-sm-4">Комментарий исполнителя:</dt>
                 <dd class="col-sm-8">{{renewal.commentExec}}</dd>
-            	<dt class="col-sm-4">Комментарий заказчика:</dt>
+            {% if renewal.commentClient %}
+            	<dt class="col-sm-4">Комментарий заказчика:
+            	<p class="font-italic">{{renewal.commentClientDate|date('d-m-Y H:i')}}</p></dt>
                 <dd class="col-sm-8">{{renewal.commentClient}}</dd>
+            {% endif %}
             </dl>
 
             <div class="row">
@@ -91,14 +94,16 @@
                 {% endfor %}
             {% endif %} 
             </div>
-
+			
+			{% if renewal.commentClient is null %}
             <div class="container p-0 mt-5">
-                <div class="row align-items-end p-0 mt-5">
-                    <div class="col-6 d-flex justify-content-end">
-                        <a href="/exec-cabinet/{{project.id}}/{{stage.id}}/addRenewal" role="button" class="btn btn-secondary w-100 w-md-auto">Редактировать комментарий</a>
+                <div class="row d-flex justify-content-end p-0 mt-5">
+                    <div class="col-md-6">
+                        <a href="/exec-cabinet/{{ project.id }}/{{ stage.id }}/{{ renewal.id }}/editRenewal" role="button" class="btn btn-secondary w-100 w-md-auto">Редактировать комментарий</a>
                     </div>
 	        	</div>
             </div>
+        	{% endif %}
         </div>
     </div>
 </div>

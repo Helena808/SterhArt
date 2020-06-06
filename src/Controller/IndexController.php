@@ -35,30 +35,5 @@ class IndexController extends AbstractController
         return $this->render('index/contacts.html.twig', $data);
     }
 
-    /**
-     * @Route("/contacts", name="send_email", methods="POST")
-     */
-    public function sendEmail(Request $request, \Swift_Mailer $mailer)
-    {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
-
-        $sender_name = $request->get('sender_name');
-        $sender_email = $request->get('sender_email');
-        $message = $request->get('message');
-
-        $letter = (new \Swift_Message('Hello Email'))
-        	->setFrom($sender_email)
-        	->setTo('daitana1@yandex.ru')
-        	->setBody($message, 'text/html');
-
-        $mailer->send($letter);
-
-        $info = 'Сообщение отправлено';
-        $data = [
-        	'user' => $user,
-            'info' => $info,
-        ];
-        return $this->render('index/contacts.html.twig', $data);
-    }
+    
 }

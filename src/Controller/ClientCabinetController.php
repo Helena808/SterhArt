@@ -135,10 +135,14 @@ class ClientCabinetController extends AbstractController
      * @Route("/client-cabinet/{userID}/{projectID}/{stageID}/{renewalID}/addComment", name="add_comment_submit", methods = "POST", requirements={"userID"="\d+","projectID"="\d+", "stageID"="\d+", "renewalID"="\d+"})
      */
     public function addCommentSubmit($userID, $projectID, $stageID, $renewalID, Request $request, RenewalRepository $rRepository)
-    {
-    	$commentClient = $request->get('commentClient');
+    {    	
     	$renewal = $rRepository->find($renewalID);
+        
+        $commentClient = $request->get('commentClient');
+        $date = new \DateTime();
+
     	$renewal->setCommentClient($commentClient);
+        $renewal->setCommentClientDate($date);
 
     	$entityManager = $this->getDoctrine()->getManager();
     	$entityManager->persist($renewal);

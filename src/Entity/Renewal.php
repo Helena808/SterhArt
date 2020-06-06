@@ -45,6 +45,11 @@ class Renewal
      */
     private $sketches;
 
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private $commentClientDate;
+
     public function __construct()
     {
         $this->created = new \DateTime();
@@ -132,6 +137,18 @@ class Renewal
                 $sketch->setRenewalId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCommentClientDate(): ?\DateTimeInterface
+    {
+        return $this->commentClientDate;
+    }
+
+    public function setCommentClientDate(?\DateTimeInterface $commentClientDate): self
+    {
+        $this->commentClientDate = $commentClientDate;
 
         return $this;
     }

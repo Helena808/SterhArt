@@ -3,7 +3,22 @@
 {% block title %}{{project.projectTitle}}{% endblock %}
 
 {% block body %}
-<div class="card my-3">
+<div class="container p-2">
+  <div class="row align-items-center mx-0 my-1" aria-label="breadcrumb">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb p-2 m-0">
+        <li class="breadcrumb-item">
+          <a href="/portfolio">Портфолио</a> 
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+          <a href="/portfolio/{{project.id}}">"{{project.projectTitle}}"</a> 
+        </li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<div class="card">
 	<div class="card-body">
     
     <h4 class="card-title">{{project.projectTitle}}</h4>
