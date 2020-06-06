@@ -25,25 +25,22 @@
 		<p><em>Город: {{project.city}}</em></p>
 		<p class="card-text">{{project.description}}</p>
 
-    <div class="row">
-            {% if project.photos %}
-                {% for photo in project.photos %}
-                <div class="col-lg-3 col-md-4 col-6">
-                    <a data-fancybox="gallery" href="{{ asset('images/photos/') ~ photo.name }}" data-caption="Caption #{{ loop.index0 }}">
-                        <img class="img-fluid" src="{{ asset('images/photos/') ~ photo.name }}" alt="oops!">
-                    </a>
-                </div>
-                {% endfor %}
-            {% endif %} 
-            </div>
-		
+  {# ГАЛЕРЕЯ #}
+    <div class="container">
+      {% if project.photos %}
+        <div class="grid">
+          {% for photo in project.photos %}
+            <a data-fancybox="portfolioGallery" href="{{ asset('images/photos/') ~ photo.name }}" data-caption="Caption #{{ loop.index0 }}">
+              <img class="img-fluid" src="{{ asset('images/photos/') ~ photo.name }}" alt="oops!">
+            </a>
+          {% endfor %}
+        </div>
+      {% endif %} 
+    </div>
 
 
-
-		
 
   {% if is_granted ('ROLE_ADMIN') %}
-
     <div class="row align-items-stretch my-3">
       <div class="col-6 d-flex justify-content-end mx-0 pr-1 mt-2 mt-md-0 p-0 px-2">
         <a href="/portfolio/{{ project.id }}/edit" role="button" class="btn btn-primary w-100 w-md-50">Редактировать</a>
@@ -58,3 +55,7 @@
 
 
 {% endblock %}
+
+
+
+

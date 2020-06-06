@@ -34,7 +34,7 @@ class Stage
     private $renewalsID;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Project", cascade={"persist", "remove"})
+     * @ORM\ManyToOne(targetEntity="App\Entity\Project", inversedBy="stagesID", cascade={"persist", "remove"})
      */
     private $projectID;
 
