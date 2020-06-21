@@ -26,15 +26,17 @@
 		<p class="card-text">{{project.description}}</p>
 
   {# ГАЛЕРЕЯ #}
-    <div class="container">
-      {% if project.photos %}
-        <div class="grid">
+    <div class="row mb-4">
+      {% if project.photos %}     
           {% for photo in project.photos %}
-            <a data-fancybox="portfolioGallery" href="{{ asset('images/photos/') ~ photo.name }}" data-caption="Caption #{{ loop.index0 }}">
-              <img class="img-fluid" src="{{ asset('images/photos/') ~ photo.name }}" alt="oops!">
-            </a>
+            {% if loop.index0 < 4 %}
+              <div class="col-lg-3 col-md-4 col-6">
+                <a data-fancybox="portfolioGallery" href="{{ asset('images/photos/') ~ photo.name }}" data-caption="Caption #{{ loop.index0 }}">
+                  <img class="img-fluid" src="{{ asset('images/photos/') ~ photo.name }}" alt="oops!">
+                </a>
+              </div>
+            {% endif %}
           {% endfor %}
-        </div>
       {% endif %} 
     </div>
 

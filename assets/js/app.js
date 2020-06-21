@@ -1,4 +1,7 @@
 /*
+ * ЗДЕСЬ ПОДКЛЮЧАЕМ ВСЁ ЧТО НУЖНО
+ * ЭТОТ ФАЙЛ КОМПИЛИТСЯ В build/js/app.js
+ *
  * Welcome to your app's main JavaScript file!
  *
  * We recommend including the built version of this JavaScript file
@@ -6,13 +9,18 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-import '../css/app.scss';
 require('../css/app.scss');
-var $ = require('jquery');
 require('bootstrap');
 
+// ЗДЕСЬ ИМПОРТИРУЕМ JS И CSS ФАЙЛЫ, КОТОРЫЕ НАМ НУЖНЫ (СВОИ И ЧУЖИЕ)
+// 
+import '../css/app.scss';
+import '../js/jquery.fancybox.min.js';
+import '../css/jquery.fancybox.min.css';
+import '../js/custom.js';
+
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
-//import $ from 'jquery';
+import $ from 'jquery';
 
 
 
