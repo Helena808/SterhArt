@@ -18,40 +18,38 @@
   </div>
 </div>
 
-<div class="card">
-	<div class="card-body">
-    
-    <h4 class="card-title">{{project.projectTitle}}</h4>
-		<p><em>Город: {{project.city}}</em></p>
-		<p class="card-text">{{project.description}}</p>
-
-  {# ГАЛЕРЕЯ #}
-    <div class="row mb-4">
-      {% if project.photos %}     
-          {% for photo in project.photos %}
-            {% if loop.index0 < 4 %}
-              <div class="col-lg-3 col-md-4 col-6">
-                <a data-fancybox="portfolioGallery" href="{{ asset('images/photos/') ~ photo.name }}" data-caption="Caption #{{ loop.index0 }}">
-                  <img class="img-fluid" src="{{ asset('images/photos/') ~ photo.name }}" alt="oops!">
-                </a>
-              </div>
-            {% endif %}
-          {% endfor %}
-      {% endif %} 
-    </div>
-
-
-
-  {% if is_granted ('ROLE_ADMIN') %}
-    <div class="row align-items-stretch my-3">
-      <div class="col-6 d-flex justify-content-end mx-0 pr-1 mt-2 mt-md-0 p-0 px-2">
+<div class="container">
+	{% if is_granted ('ROLE_ADMIN') %}
+    <div class="d-flex justify-content-end my-3">
+      <div class="col-6 col-md-3 col-xl-2 d-flex justify-content-end mx-0 pr-1 mt-2 mt-md-0 p-0 px-2">
         <a href="/portfolio/{{ project.id }}/edit" role="button" class="btn btn-primary w-100 w-md-50">Редактировать</a>
       </div>
-      <div class="col-6 d-flex justify-content-end mx-0 pr-1 mt-2 mt-md-0 p-0 px-2">
+      <div class="col-6 col-md-3 col-xl-2 d-flex justify-content-end mx-0 pr-1 mt-2 mt-md-0 p-0 px-2">
         <a href="/portfolio/{{ project.id }}/delete" role="button" class="btn btn-danger w-100 w-md-50">Удалить проект</a>
       </div>
     </div>
   {% endif %}
+
+  <h4 class="card-title">{{project.projectTitle}}</h4>
+	<p><em>Город: {{project.city}}</em></p>
+	<p class="card-text">{{project.description}}</p>
+
+  {# ГАЛЕРЕЯ #}
+    <div class="container m-0 p-0"> 
+      {% if project.photos %}
+        <div class="grid">     
+          {% for photo in project.photos %}
+            <div class="grid--item">
+              <a data-fancybox="portfolioGallery" href="{{ asset('images/photos/') ~ photo.name }}" data-caption="Caption #{{ loop.index0 }}">
+                <img class="img-fluid" src="{{ asset('images/photos/') ~ photo.name }}" alt="oops!">
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %} 
+    </div>
+
+
 	</div>
 </div>
 

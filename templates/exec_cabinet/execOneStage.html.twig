@@ -87,7 +87,7 @@
             {% if renewal.sketches %}
                 {% for sketch in renewal.sketches %}
                 <div class="col-lg-2 col-md-3 col-6">
-                    <a data-fancybox="stageGallery" href="{{ asset('images/sketches/') ~ sketch.name }}" data-caption="Caption #{{ loop.index0 }}">
+                    <a data-fancybox="execStageGallery" href="{{ asset('images/sketches/') ~ sketch.name }}" data-caption="Caption #{{ loop.index0 }}">
                         <img class="img-fluid" src="{{ asset('images/sketches/') ~ sketch.name }}" alt="oops!">
                     </a>
                 </div>

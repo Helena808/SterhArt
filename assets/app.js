@@ -1,6 +1,6 @@
 /*
  * ЗДЕСЬ ПОДКЛЮЧАЕМ ВСЁ ЧТО НУЖНО
- * ЭТОТ ФАЙЛ КОМПИЛИТСЯ В build/js/app.js
+ * ЭТОТ ФАЙЛ КОМПИЛИТСЯ В build/styles.js
  *
  * Welcome to your app's main JavaScript file!
  *
@@ -9,15 +9,23 @@
  */
 
 // any CSS you import will output into a single css file (app.css in this case)
-require('../css/app.scss');
+
+// import the function from js-files (the .js extension is optional)
+
 require('bootstrap');
+require('./js/jquery.fancybox.min');
+require('./js/gridify-min');
+require('./js/custom');
+
 
 // ЗДЕСЬ ИМПОРТИРУЕМ JS И CSS ФАЙЛЫ, КОТОРЫЕ НАМ НУЖНЫ (СВОИ И ЧУЖИЕ)
-// 
+
+/*
 import '../css/app.scss';
-import '../js/jquery.fancybox.min.js';
+import 'jquery.fancybox.min.js';
 import '../css/jquery.fancybox.min.css';
-import '../js/custom.js';
+import 'custom.js';
+*/
 
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 import $ from 'jquery';

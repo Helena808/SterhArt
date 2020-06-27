@@ -23,13 +23,13 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('app', [
-        './assets/js/app.js',
+    .addEntry('scripts', [
+        './assets/app.js',
         './node_modules/bootstrap/dist/js/bootstrap.min.js'
         ])
 
-    .addStyleEntry('css/app', [
-        './assets/css/app.scss',
+    .addStyleEntry('styles', [
+        './assets/app.scss',
         './node_modules/bootstrap/dist/css/bootstrap.min.css'
         ])
     //.addEntry('page1', './assets/js/page1.js')
