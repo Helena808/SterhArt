@@ -33,18 +33,18 @@ class ExecCabinetController extends AbstractController
             'containers' => [],
         ]; // сюда положим подборки проект-текущая стадия-last обновление
 
-        $stages = $sRepository->findActiveStages();
+        $activeStages = $sRepository->findActiveStages();
 
-        for ($i=0; $i<count($stages); $i++) {
+        for ($i=0; $i<count($activeStages); $i++) {
             
-            $stage = $stages[$i];
-            $stageID = $stage->getID();
+            $activeStage = $activeStages[$i];
+            $activeStageID = $activeStage->getID();
 
-            $arrRenewalID = $rRepository->findLastRenewal($stageID);
+            $arrRenewalID = $rRepository->findLastRenewal($activeStageID);
             $renewalID = $arrRenewalID[0][1];//приходит массив с массивом!!!
             $renewal = $rRepository->find($renewalID);
 
-            $projectID = $stage->getProjectID();
+            $projectID = $activeStage->getProjectID();
             $project = $pRepository->find($projectID);
 
             $userID = $project->getUser();
@@ -53,7 +53,7 @@ class ExecCabinetController extends AbstractController
             $data['containers'][$i] = [
                     'user' => $user,
                     'project' => $project, 
-                    'stage' => $stage, 
+                    'stage' => $activeStage, 
                     'renewal' => $renewal
                     ];
         }

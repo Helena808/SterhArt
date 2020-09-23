@@ -40,10 +40,18 @@
 						<dt class="col-sm-5">Адрес:</dt>
 						<dd class="col-sm-7">{{container.project.address}}</dd>
 
-						<dt class="col-sm-5">Обновление:</dt>
-						<dd class="col-sm-7">{{container.renewal.created|date('d-m-Y')}}</dd>
 						<dt class="col-sm-5">Стадия:</dt>
 						<dd class="col-sm-7">{{container.stage.stageTitle}}</dd>
+						<dt class="col-sm-5 pb-2">Моё последнее обновление:</dt>
+						<dd class="col-sm-7">{{container.renewal.created|date('d.m.Y, H:i')}}</dd>						
+						<dt class="col-sm-5">Комментарий заказчика:</dt>
+						<dd class="col-sm-7">
+							{% if container.renewal.commentClientDate %}
+								{{container.renewal.commentClientDate|date('d.m.Y, H:i')}}
+							{% else %}
+								пока нет
+							{% endif %}
+						</dd>
 					</dl>
 				</div>
 			</div>

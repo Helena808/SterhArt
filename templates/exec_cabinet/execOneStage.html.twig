@@ -71,14 +71,13 @@
 <div class="container card">
     <div class="row align-items-center">
         <div class="card-body">
-        	<h5 class="card-title">Обновление от {{renewal.created|date('d-m-Y')}}</h5>
+        	<h5 class="card-title">Обновление от {{renewal.created|date('d.m.Y, H:i')}}</h5>
                     
             <dl class="row card-text">
             	<dt class="col-sm-4">Комментарий исполнителя:</dt>
                 <dd class="col-sm-8">{{renewal.commentExec}}</dd>
             {% if renewal.commentClient %}
-            	<dt class="col-sm-4">Комментарий заказчика:
-            	<p class="font-italic">{{renewal.commentClientDate|date('d-m-Y H:i')}}</p></dt>
+            	 <dt class="col-sm-4">Комментарий заказчика <p class="text-muted"><em>{{renewal.commentClientDate|date('d.m.Y, H:i')}}</em></p></dt>
                 <dd class="col-sm-8">{{renewal.commentClient}}</dd>
             {% endif %}
             </dl>
