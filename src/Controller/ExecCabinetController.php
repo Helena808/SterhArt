@@ -143,7 +143,7 @@ class ExecCabinetController extends AbstractController
 
         $stage1ID = $stage1->getID();
         
-        return $this->redirectToRoute('add_renewal_open', array('projectID'=>$projectID, 'stageID'=>$stage1ID));
+        return $this->redirectToRoute('add_renewal', array('projectID'=>$projectID, 'stageID'=>$stage1ID));
     }
 
     // ВСЕ СТАДИИ ОДНОГО ПРОЕКТА

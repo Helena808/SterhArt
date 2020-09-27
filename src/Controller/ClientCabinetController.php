@@ -66,7 +66,6 @@ class ClientCabinetController extends AbstractController
 
         $project = $pRepository -> find($projectID);
         $stages = $sRepository -> findByProjectID($projectID);
-        dump($stages);
 
         if (!$project) {
             throw $this->createNotFoundException('Проект не найден');
