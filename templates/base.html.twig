@@ -9,9 +9,13 @@
         {{ encore_entry_link_tags('scripts') }}
         {{ encore_entry_link_tags('styles') }}
         
+        
         <title>{% block title %}Главная{% endblock %}</title>
 
         {% block stylesheets %}{% endblock %}
+        
+        <link rel="icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
     </head>
     <body>
         <nav class="navbar fixed-top navbar-expand-md navbar-dark bg-dark">

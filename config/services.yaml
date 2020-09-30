@@ -6,6 +6,7 @@
 parameters:
     photos_directory: '%kernel.project_dir%/public/images/photos/'
     sketches_directory: '%kernel.project_dir%/public/images/sketches/'
+    concepts_directory: '%kernel.project_dir%/public/images/concepts/'
 
 services:
     # default configuration for services in *this* file

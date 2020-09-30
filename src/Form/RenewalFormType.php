@@ -23,6 +23,7 @@ class RenewalFormType extends AbstractType
             ))
             ->add('sketches', FileType::class, array(
                 'mapped' => false,
+                'required' => false,
                 'label' => 'Загрузить изображения',
                 'multiple' => true,       
             ))

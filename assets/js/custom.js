@@ -42,3 +42,29 @@ $(function () {
     $('.grid').gridify(options);
 });
 
+// Для подвеса картинок пользователем (добавить новые строки)
+jQuery(function() {
+	$(document).ready(function() {
+	    $("body").on("click",".buttonToOpen",function(){ 
+	    	// Копируем первый блок browse и полем для комментария
+	    	let html = $(".fieldsForConcepts").children().first().clone();
+	    	// Вставляем вниз перед кнопкой "Добавить ещё"
+	   		$(".fieldsForConcepts").children().last().before(html);
+	   		// Вытаскиваем атрибут name из button (это наш счётчик)
+	   		let counter = $(".buttonToOpen").attr("value");
+	   		// Формируем имя для name
+	   		let newName = "concept"+counter;
+	   		// Устанавливаем элементам нового блока атрибуты name
+	   		let $kids = $(".fieldsForConcepts").children().eq(-2).children();
+	   		console_log($kids);
+	   		$kids.each(function (index, elem) {
+	   			elem.attr("name", newName);
+	   		});
+			// Обновляем name в button (+1 счётчику для следующего раза)
+			counter++;
+			$(".buttonToOpen").attr("value", counter)
+		});
+	});
+
+
+});

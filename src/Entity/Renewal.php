@@ -50,10 +50,16 @@ class Renewal
      */
     private $commentClientDate;
 
+    /**
+     * @ORM\OneToMany(targetEntity=Concept::class, mappedBy="renewal_id", cascade = {"persist"})
+     */
+    private $concepts;
+
     public function __construct()
     {
         $this->created = new \DateTime();
         $this->sketches = new ArrayCollection();
+        $this->concepts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -149,6 +155,37 @@ class Renewal
     public function setCommentClientDate(?\DateTimeInterface $commentClientDate): self
     {
         $this->commentClientDate = $commentClientDate;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Concept[]
+     */
+    public function getConcepts(): Collection
+    {
+        return $this->concepts;
+    }
+
+    public function addConcept(Concept $concept): self
+    {
+        if (!$this->concepts->contains($concept)) {
+            $this->concepts[] = $concept;
+            $concept->setRenewalId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeConcept(Concept $concept): self
+    {
+        if ($this->concepts->contains($concept)) {
+            $this->concepts->removeElement($concept);
+            // set the owning side to null (unless already changed)
+            if ($concept->getRenewalId() === $this) {
+                $concept->setRenewalId(null);
+            }
+        }
 
         return $this;
     }
