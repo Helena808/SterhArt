@@ -48,18 +48,24 @@ jQuery(function() {
 	    $("body").on("click",".buttonToOpen",function(){ 
 	    	// Копируем первый блок browse и полем для комментария
 	    	let html = $(".fieldsForConcepts").children().first().clone();
+
 	    	// Вставляем вниз перед кнопкой "Добавить ещё"
 	   		$(".fieldsForConcepts").children().last().before(html);
+
 	   		// Вытаскиваем атрибут name из button (это наш счётчик)
-	   		let counter = $(".buttonToOpen").attr("value");
-	   		// Формируем имя для name
-	   		let newName = "concept"+counter;
+	   		let counter = $(".buttonToOpen").attr("value");	   		
+
+	   		// Формируем имена для name
+	   		let newConceptName = "concept"+counter;
+	   		let newConceptAnnotationName = "concept_annotation"+counter;
+
 	   		// Устанавливаем элементам нового блока атрибуты name
-	   		let $kids = $(".fieldsForConcepts").children().eq(-2).children();
-	   		console_log($kids);
-	   		$kids.each(function (index, elem) {
-	   			elem.attr("name", newName);
-	   		});
+	   		let kids = $(".fieldsForConcepts").children().eq(-2).children();
+	   		$(kids[0]).attr("name", newConceptName);
+	   		$(kids[0]).attr("id", newConceptName);
+	   		$(kids[1]).attr("for", newConceptName);
+	   		$(kids[2]).attr("name", newConceptAnnotationName);
+
 			// Обновляем name в button (+1 счётчику для следующего раза)
 			counter++;
 			$(".buttonToOpen").attr("value", counter)

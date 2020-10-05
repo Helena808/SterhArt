@@ -5,10 +5,12 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
+use App\Entity\Concept;
 use App\Repository\UserRepository;
 use App\Repository\ProjectRepository;
 use App\Repository\StageRepository;
 use App\Repository\RenewalRepository;
+use App\Repository\ConceptRepository;
 
 class ClientCabinetController extends AbstractController
 {
@@ -113,6 +115,7 @@ class ClientCabinetController extends AbstractController
     public function addCommentOpen($projectID, $stageID, $renewalID, ProjectRepository $pRepository, StageRepository $sRepository, RenewalRepository $rRepository)
     {
         $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        
         $user = $this->getUser();
 
         $project = $pRepository -> find($projectID);
@@ -129,19 +132,56 @@ class ClientCabinetController extends AbstractController
         return $this->render('client_cabinet/addComment.html.twig', $data);
     }
 
-
+    // Обработчик формы
     /**
      * @Route("/client-cabinet/{userID}/{projectID}/{stageID}/{renewalID}/addComment", name="add_comment_submit", methods = "POST", requirements={"userID"="\d+","projectID"="\d+", "stageID"="\d+", "renewalID"="\d+"})
      */
     public function addCommentSubmit($userID, $projectID, $stageID, $renewalID, Request $request, RenewalRepository $rRepository)
     {    	
-    	$renewal = $rRepository->find($renewalID);
-        
+    	// Находим текущий renewal и добавляем ему основной комментарий с датой
+        $renewal = $rRepository->find($renewalID);
         $commentClient = $request->get('commentClient');
         $date = new \DateTime();
-
-    	$renewal->setCommentClient($commentClient);
+        $renewal->setCommentClient($commentClient);
         $renewal->setCommentClientDate($date);
+
+        // ФАЙЛЫ КАРТИНОК CONCEPTS И АННОТАЦИИ К НИМ
+        $uploads_dir = $this -> getParameter('concepts_directory');
+
+        $base_concept_name = "concept";
+        $base_annotation_name = "concept_annotation";
+        $i = 1;
+
+        $annotation_name = $base_annotation_name . $i;
+        $annotation = $request -> get($annotation_name);
+
+        while ($annotation) {
+            // Аннотация у нас уже есть, надо найти файл
+            // Формируем имя файла номер i для поиска
+            $concept_name = $base_concept_name . $i;
+            dump($request -> files);
+
+            // Находим и сохраняем файл номер i
+            $concept_file = $request -> files -> get($concept_name);
+            $filename = md5(uniqid()) . '.' . $concept_file -> guessExtension();
+            $concept_file -> move(
+                $uploads_dir,
+                $filename
+            );
+
+            // Создаём объект файла номер i с аннотацией и привязываем его к текущему renewal
+            $concept = new Concept();
+            $concept -> setName($filename);
+            $concept -> setAnnotation($annotation);
+            $renewal -> addConcept($concept);
+
+            // Обновляем счётчик и ищем следующую аннотацию для:
+                // - проверки условия перед повтором цикла;
+                // - работы с ней в следующей итерации цикла
+            $i++;
+            $annotation_name = $base_annotation_name . $i;
+            $annotation = $request -> get($annotation_name);
+        };
 
     	$entityManager = $this->getDoctrine()->getManager();
     	$entityManager->persist($renewal);

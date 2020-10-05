@@ -76,23 +76,38 @@
             <dl class="row card-text">
             	<dt class="col-sm-4">Комментарий исполнителя:</dt>
                 <dd class="col-sm-8">{{renewal.commentExec}}</dd>
-            {% if renewal.commentClient %}
-            	 <dt class="col-sm-4">Комментарий заказчика <p class="text-muted"><em>{{renewal.commentClientDate|date('d.m.Y, H:i')}}</em></p></dt>
-                <dd class="col-sm-8">{{renewal.commentClient}}</dd>
-            {% endif %}
             </dl>
 
-            <div class="row">
             {% if renewal.sketches %}
+            <div class="row mb-5">
                 {% for sketch in renewal.sketches %}
                 <div class="col-lg-2 col-md-3 col-6">
-                    <a data-fancybox="execStageGallery" href="{{ asset('images/sketches/') ~ sketch.name }}" data-caption="Caption #{{ loop.index0 }}">
+                    <a data-fancybox="execStageGallery" href="{{ asset('images/sketches/') ~ sketch.name }}" data-caption="Sketch {{ loop.index0 }}">
                         <img class="img-fluid" src="{{ asset('images/sketches/') ~ sketch.name }}" alt="oops!">
                     </a>
                 </div>
                 {% endfor %}
-            {% endif %} 
             </div>
+            {% endif %} 
+
+            {% if renewal.commentClient %}
+            <dl class="row card-text">
+            	 <dt class="col-sm-4">Комментарий заказчика <p class="text-muted"><em>{{renewal.commentClientDate|date('d.m.Y, H:i')}}</em></p></dt>
+                <dd class="col-sm-8">{{renewal.commentClient}}</dd>
+            </dl>
+            {% endif %}         
+
+            {% if renewal.concepts %}
+            <div class="row">
+                {% for concept in renewal.concepts %}
+                <div class="col-lg-2 col-md-3 col-6">
+                    <a data-fancybox="clientStageGallery" href="{{ asset('images/concepts/') ~ concept.name }}" data-caption="{{ concept.annotation }}" title="{{ concept.annotation }}">
+                        <img class="img-fluid" src="{{ asset('images/concepts/') ~ concept.name }}" alt="oops!">
+                    </a>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}            
 			
 			{% if renewal.commentClient is null %}
             <div class="container p-0 mt-5">

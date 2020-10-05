@@ -36,7 +36,7 @@ class Concept
     /**
      * @ORM\Column(type="string", length=5000)
      */
-    private $comment;
+    private $annotation;
 
     public function __construct()
     {
@@ -84,14 +84,14 @@ class Concept
         return $this;
     }
 
-    public function getComment(): ?string
+    public function getAnnotation(): ?string
     {
-        return $this->comment;
+        return $this->annotation;
     }
 
-    public function setComment(string $comment): self
+    public function setAnnotation(string $annotation): self
     {
-        $this->comment = $comment;
+        $this->annotation = $annotation;
 
         return $this;
     }
