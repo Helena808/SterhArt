@@ -42,9 +42,18 @@ $(function () {
     $('.grid').gridify(options);
 });
 
+// Отображение имен загружаемых файлов
+jQuery(function() {
+$(".custom-file-input").on("change", function() {
+  var fileName = $(this).val().split("\\").pop();
+  $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+});
+});
+
 // Для подвеса картинок пользователем (добавить новые строки)
 jQuery(function() {
 	$(document).ready(function() {
+	    
 	    $("body").on("click",".buttonToOpen",function(){ 
 	    	// Копируем первый блок browse и полем для комментария
 	    	let html = $(".fieldsForConcepts").children().first().clone();
@@ -61,14 +70,21 @@ jQuery(function() {
 
 	   		// Устанавливаем элементам нового блока атрибуты name
 	   		let kids = $(".fieldsForConcepts").children().eq(-2).children();
-	   		$(kids[0]).attr("name", newConceptName);
-	   		$(kids[0]).attr("id", newConceptName);
-	   		$(kids[1]).attr("for", newConceptName);
-	   		$(kids[2]).attr("name", newConceptAnnotationName);
+	   		$(kids[0]).find("input").attr("name", newConceptName);
+	   		$(kids[0]).find("input").attr("id", newConceptName);
+	   		$(kids[0]).find("label").attr("for", newConceptName);
+	   		$(kids[1]).attr("name", newConceptAnnotationName);
 
 			// Обновляем name в button (+1 счётчику для следующего раза)
 			counter++;
-			$(".buttonToOpen").attr("value", counter)
+			$(".buttonToOpen").attr("value", counter);
+
+			// Отображение имен загружаемых файлов
+			$(".custom-file-input").on("change", function() {
+  				var fileName = $(this).val().split("\\").pop();
+  				$(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+			});
+
 		});
 	});
 

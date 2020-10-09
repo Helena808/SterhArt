@@ -19,22 +19,22 @@ class ConceptRepository extends ServiceEntityRepository
         parent::__construct($registry, Concept::class);
     }
 
-    // /**
-    //  * @return Concept[] Returns an array of Concept objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+    * @return Concept[] Returns an array of Concept objects
+    */
+    
+    public function findByRenewalId($renewalId)
     {
         return $this->createQueryBuilder('c')
-            ->andWhere('c.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('c.renewal_id = :val')
+            ->setParameter('val', $renewalId)
             ->orderBy('c.id', 'ASC')
-            ->setMaxResults(10)
+            ->setMaxResults(100)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Concept

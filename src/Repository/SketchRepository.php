@@ -19,22 +19,22 @@ class SketchRepository extends ServiceEntityRepository
         parent::__construct($registry, Sketch::class);
     }
 
-    // /**
-    //  * @return Sketch[] Returns an array of Sketch objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+    * @return Sketch[] Returns an array of Sketch objects
+    */
+    
+    public function findByRenewalId($renewalId)
     {
         return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
+            ->andWhere('s.renewal_id = :val')
+            ->setParameter('val', $renewalId)
             ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
+            ->setMaxResults(100)
             ->getQuery()
             ->getResult()
         ;
     }
-    */
+    
 
     /*
     public function findOneBySomeField($value): ?Sketch

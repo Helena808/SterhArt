@@ -14,6 +14,7 @@ use App\Repository\UserRepository;
 use App\Repository\StageRepository;
 use App\Repository\RenewalRepository;
 use App\Repository\SketchRepository;
+use App\Repository\ConceptRepository;
 use App\Form\RenewalFormType;
 use App\Form\RenewalEditFormType;
 
@@ -61,7 +62,7 @@ class ExecCabinetController extends AbstractController
         return $this->render('exec_cabinet/exec_cabinet.html.twig', $data);
     }
 
-    // ДОБАВИТЬ ТЕКУЩИЙ ПРОЕКТ
+// ДОБАВИТЬ ТЕКУЩИЙ ПРОЕКТ
      /**
       * @Route("/exec-cabinet/addProject", name="add_project_open", methods = "GET")
       */
@@ -103,6 +104,61 @@ class ExecCabinetController extends AbstractController
 
     	return $this->redirectToRoute('add_stages', array('projectID'=>$projectID));
     }
+
+// УДАЛИТЬ ПРОЕКТ
+    /**
+      * @Route("/exec-cabinet/{id}/delete", name="delete_project", requirements={"id"="\d+"})
+      */
+    public function deleteProject($id, ProjectRepository $pRepository, StageRepository $sRepository, RenewalRepository $rRepository, SketchRepository $skRepository, ConceptRepository $cRepository)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $project = $pRepository -> find($id);
+        $stages = $sRepository -> findByProjectID($id);
+
+        $em = $this -> getDoctrine() -> getManager();
+
+        foreach($stages as $stage)
+        {
+            $stageID = $stage -> getId();
+            $renewals = $rRepository -> findByStageID($stageID);
+
+            foreach($renewals as $renewal)
+            {
+                $renewalID = $renewal -> getId();
+
+                // Удаляем все картинки исполнителя
+                $sketches = $skRepository -> findByRenewalId($renewalID);
+                foreach($sketches as $sketch)
+                {
+                    $renewal -> removeSketch($sketch);
+                    $em -> remove($sketch);
+                };
+
+                // Удаляем все картинки заказчика
+                $concepts = $cRepository -> findByRenewalId($renewalID);
+                foreach($concepts as $concept)
+                {
+                    $renewal -> removeConcept($concept);
+                    $em -> remove($concept);
+                };
+
+                // Удаляем обновление
+                $stage -> removeRenewalsID($renewal);
+                $em -> remove($renewal);
+            };
+
+            // Удаляем стадию
+            $project -> removeStagesID($stage);
+            $em -> remove($stage);
+        };
+
+        // Удаляем проект
+        $em -> remove($project);
+        $em -> flush();
+
+        return $this->redirectToRoute('exec_cabinet');
+    }
+
 
 // С Т А Д И И   О Д Н О Г О   П Р О Е К Т А
 

@@ -34,6 +34,7 @@ import $ from 'jquery';
 
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');
 
+/*
 $('#portfolio_form_photos').change(function() {
     var $el = $(this),
     files = $el[0].files,
@@ -43,4 +44,4 @@ $('#portfolio_form_photos').change(function() {
     }
     $el.next('.custom-file-label').html(label);
 });
-
+*/
