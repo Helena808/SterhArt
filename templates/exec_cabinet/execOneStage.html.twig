@@ -78,7 +78,7 @@
                 <dd class="col-sm-8">{{renewal.commentExec}}</dd>
             </dl>
 
-            {% if renewal.sketches %}
+            {% if (renewal.sketches is not empty) %}
             <div class="row mb-5">
                 {% for sketch in renewal.sketches %}
                 <div class="col-lg-2 col-md-3 col-6">
@@ -90,14 +90,15 @@
             </div>
             {% endif %} 
 
-            {% if renewal.commentClient %}
+            {% if (renewal.commentClient or (renewal.concepts is not empty)) %}
             <dl class="row card-text">
             	 <dt class="col-sm-4">Комментарий заказчика <p class="text-muted"><em>{{renewal.commentClientDate|date('d.m.Y, H:i')}}</em></p></dt>
+                {% if renewal.commentClient %}
                 <dd class="col-sm-8">{{renewal.commentClient}}</dd>
+                {% endif %}
             </dl>
-            {% endif %}         
 
-            {% if renewal.concepts %}
+            {% if (renewal.concepts is not empty) %}
             <div class="row">
                 {% for concept in renewal.concepts %}
                 <div class="col-lg-2 col-md-3 col-6">
@@ -107,9 +108,10 @@
                 </div>
                 {% endfor %}
             </div>
-            {% endif %}            
+            {% endif %}
+            {% endif %}
 			
-			{% if renewal.commentClient is null %}
+			{% if (not(renewal.commentClient) and (renewal.concepts is empty)) %}
             <div class="container p-0 mt-5">
                 <div class="row d-flex justify-content-end p-0 mt-5">
                     <div class="col-md-6">
